@@ -60,12 +60,18 @@ class TestBurger:
         'ingredients, total_price', [
             (
                 [
-                    Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус Spicy-X', price=9.0),
+                    Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус Spicy-X', price=90.0),
                     Ingredient(ingredient_type=INGREDIENT_TYPE_FILLING,
                                name='Мясо бессмертных моллюсков Protostomia', price=1337.0)
-                ], 2456.0
+                ], 3403.0
             ),
-            # TODO дописать варианты parametrize
+            (
+                    [
+                        Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус с шипами Антарианского плоскоходца', price=88.0),
+                        Ingredient(ingredient_type=INGREDIENT_TYPE_FILLING,
+                                   name='Филе Люминесцентного тетраодонтимформа', price=988.0)
+                    ], 3052.0
+            )
         ]
     )
     def test_get_price(self, ingredients, total_price):
@@ -73,8 +79,6 @@ class TestBurger:
 
         burger.set_buns(Bun(name='Флюоресцентная булка R2-D3', price=988))
 
-        # for ingredient in ingredients:
-        #     burger.add_ingredient(ingredient)
         burger.ingredients = ingredients
 
         assert burger.get_price() == total_price
@@ -112,8 +116,6 @@ class TestBurger:
 
         burger.set_buns(Bun(name='Флюоресцентная булка R2-D3', price=988))
 
-        # for ingredient in ingredients:
-        #     burger.add_ingredient(ingredient)
         burger.ingredients = ingredients
 
         assert burger.get_receipt() == result_receipt
