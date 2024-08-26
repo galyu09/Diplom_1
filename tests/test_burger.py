@@ -36,25 +36,19 @@ class TestBurger:
         burger.add_ingredient(ingredient)
         assert burger.ingredients == [ingredient]
 
-    def test_remove_ingredient(self):
+    def test_remove_ingredient(self, set_data_ingredient):
         burger = Burger()
-        ingredient_1 = Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус Spicy-X', price=9.0)
-        ingredient_2 = Ingredient(ingredient_type=INGREDIENT_TYPE_FILLING,
-                                  name='Мясо бессмертных моллюсков Protostomia', price=1337.0)
-        burger.add_ingredient(ingredient_1)
-        burger.add_ingredient(ingredient_2)
+        burger.add_ingredient(set_data_ingredient[0])
+        burger.add_ingredient(set_data_ingredient[1])
         burger.remove_ingredient(0)
-        assert burger.ingredients == [ingredient_2]
+        assert burger.ingredients == [set_data_ingredient[1]]
 
-    def test_move_ingredient(self):
+    def test_move_ingredient(self, set_data_ingredient):
         burger = Burger()
-        ingredient_1 = Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус Spicy-X', price=9.0)
-        ingredient_2 = Ingredient(ingredient_type=INGREDIENT_TYPE_FILLING,
-                                  name='Мясо бессмертных моллюсков Protostomia', price=1337.0)
-        burger.add_ingredient(ingredient_1)
-        burger.add_ingredient(ingredient_2)
+        burger.add_ingredient(set_data_ingredient[0])
+        burger.add_ingredient(set_data_ingredient[1])
         burger.move_ingredient(0, 1)
-        assert burger.ingredients == [ingredient_2, ingredient_1]
+        assert burger.ingredients == [set_data_ingredient[1], set_data_ingredient[0]]
 
     @pytest.mark.parametrize(
         'ingredients, total_price', [
@@ -66,21 +60,18 @@ class TestBurger:
                 ], 3403.0
             ),
             (
-                    [
-                        Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус с шипами Антарианского плоскоходца', price=88.0),
-                        Ingredient(ingredient_type=INGREDIENT_TYPE_FILLING,
+                [
+                    Ingredient(ingredient_type=INGREDIENT_TYPE_SAUCE, name='Соус с шипами Антарианского плоскоходца', price=88.0),
+                    Ingredient(ingredient_type=INGREDIENT_TYPE_FILLING,
                                    name='Филе Люминесцентного тетраодонтимформа', price=988.0)
-                    ], 3052.0
+                ], 3052.0
             )
         ]
     )
-    def test_get_price(self, ingredients, total_price):
+    def test_get_price(self, ingredients, total_price, set_data_bun):
         burger = Burger()
-
-        burger.set_buns(Bun(name='Флюоресцентная булка R2-D3', price=988))
-
+        burger.set_buns(set_data_bun)
         burger.ingredients = ingredients
-
         assert burger.get_price() == total_price
 
     @pytest.mark.parametrize(
@@ -111,11 +102,8 @@ class TestBurger:
              )
         ]
     )
-    def test_get_receipt(self, ingredients, result_receipt):
+    def test_get_receipt(self, ingredients, result_receipt, set_data_bun):
         burger = Burger()
-
-        burger.set_buns(Bun(name='Флюоресцентная булка R2-D3', price=988))
-
+        burger.set_buns(set_data_bun)
         burger.ingredients = ingredients
-
         assert burger.get_receipt() == result_receipt
